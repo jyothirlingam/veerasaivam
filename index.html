@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>వీరశైవ కమ్యూనిటీ పోర్టల్</title>
+    <title>వీరశైవం - పోర్టల్</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -15,77 +15,74 @@
         .active-screen { display: block; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 1. PREMIUM FLOATING BANNER (Notice Board) --- */
-        .notice-container { 
-            background: #ffffff; margin: 10px auto 20px auto; padding: 10px 18px; border-radius: 15px; 
-            display: flex; align-items: center; box-shadow: 0 10px 25px rgba(9, 2, 150, 0.08); 
-            border-left: 5px solid var(--danger); max-width: 95%; overflow: hidden; position: relative;
-        }
+        /* HEADER & NOTIF Badge */
+        .header-ui { display: flex; justify-content: space-between; align-items: center; padding: 12px 5%; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .notif-btn { position: relative; cursor: pointer; font-size: 22px; color: var(--primary); }
+        .notif-badge { position: absolute; top: -5px; right: -5px; background: var(--danger); color: white; font-size: 10px; padding: 2px 6px; border-radius: 50%; display: none; font-weight: bold; border: 2px solid white; }
+
+        /* NOTICE BOARD */
+        .notice-container { background: #ffffff; margin: 10px auto 20px auto; padding: 10px 18px; border-radius: 15px; display: flex; align-items: center; box-shadow: 0 10px 25px rgba(9, 2, 150, 0.08); border-left: 5px solid var(--danger); max-width: 95%; overflow: hidden; }
         .notice-icon-box { background: #fff0f1; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
         .notice-icon-box i { color: var(--danger); font-size: 18px; }
-        .notice-content { flex-grow: 1; overflow: hidden; }
-        .notice-label-small { font-size: 10px; font-weight: 800; color: var(--danger); text-transform: uppercase; display: block; margin-bottom: 2px; letter-spacing: 1px; }
         marquee { font-size: 13px; color: var(--primary); font-weight: 600; }
 
-        /* --- 2. RESPONSIVE GRID SYSTEM --- */
-        .reg-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 20px; }
-        @media (min-width: 600px) { .reg-grid { grid-template-columns: 1fr 1fr; } }
-
-        /* --- 3. MODERN FLOATING INPUTS --- */
-        .f-group { position: relative; margin-bottom: 20px; width: 100%; text-align: left; }
-        .f-group input, .f-group select { width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 15px; outline: none; background: #fff; font-size: 16px; display: block; transition: 0.3s; }
-        .f-group label { position: absolute; top: 15px; left: 15px; font-size: 15px; color: #999; transition: 0.2s ease-all; pointer-events: none; background: white; padding: 0 5px; }
-        .f-group input:focus ~ label, .f-group input:not(:placeholder-shown) ~ label, .f-group select:focus ~ label, .f-group select:not([value=""]):valid ~ label { top: -10px; left: 10px; font-size: 12px; color: var(--primary); font-weight: bold; }
-        .f-group input:focus { border-color: var(--primary); }
-        .toggle-pass { position: absolute; right: 15px; top: 18px; color: #999; cursor: pointer; z-index: 10; font-size: 18px; }
-
-        /* --- 4. DIRECTORY & FILTER UI --- */
+        /* FILTER UI */
         .filter-wrap { display: flex; gap: 10px; margin-bottom: 20px; background: white; padding: 12px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); align-items: center; }
         .srch-box { position: relative; flex: 2; }
         .bld-box { position: relative; flex: 1.2; }
-        .filter-wrap input, .filter-wrap select { width: 100%; padding: 12px 12px 12px 40px; border-radius: 12px; border: 1.5px solid #eee; outline: none; font-size: 14px; background: #fcfcfc; }
+        .filter-wrap input, .filter-wrap select { width: 100%; padding: 12px 12px 12px 40px; border-radius: 12px; border: 1.5px solid #eee; outline: none; font-size: 14px; background: #fcfcfc; transition: 0.3s; }
         .f-icon-ui { position: absolute; left: 15px; top: 14px; color: #aaa; z-index: 2; }
 
-        .member-card { background: white; padding: 20px; border-radius: 22px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.04); border: 1px solid #f0f0f0; position: relative; }
-        .b-tag { position: absolute; right: 15px; top: 18px; background: #fff5f5; color: #ff0015; padding: 5px 12px; border-radius: 10px; font-size: 11px; font-weight: 800; border: 1px solid #ffebeb; }
+        /* GRID & INPUTS */
+        .reg-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 20px; }
+        @media (min-width: 600px) { .reg-grid { grid-template-columns: 1fr 1fr; } }
+        .f-group { position: relative; margin-bottom: 20px; width: 100%; text-align: left; }
+        .f-group input, .f-group select { width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 15px; outline: none; background: #fff; font-size: 16px; transition: 0.3s; }
+        .f-group label { position: absolute; top: 15px; left: 15px; font-size: 15px; color: #999; transition: 0.2s ease-all; pointer-events: none; background: white; padding: 0 5px; }
+        .f-group input:focus ~ label, .f-group input:not(:placeholder-shown) ~ label, .f-group select:focus ~ label, .f-group select:not([value=""]):valid ~ label { top: -10px; left: 10px; font-size: 12px; color: var(--primary); font-weight: bold; }
+        .toggle-pass { position: absolute; right: 15px; top: 18px; color: #999; cursor: pointer; z-index: 10; font-size: 18px; }
 
-        /* --- 5. PREMIUM 5-COLOR GRADIENT ID CARD --- */
-        .id-card-wrap { 
-            width: 100%; max-width: 350px; 
-            background: 
-                linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%),
-                linear-gradient(to bottom right, #090296 0%, #04b03a 40%, #f2f54e 60%, #ff0015 80%, #ffffff 100%);
-            margin: 10px auto 25px auto; border-radius: 20px; color: white; padding: 25px; 
-            position: relative; border: 3px solid var(--accent); box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
-            aspect-ratio: 1.6 / 1; display: flex; flex-direction: column; justify-content: center; overflow: hidden;
-        }
-        .id-card-wrap h3 { color: var(--accent); margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 8px; font-size: 20px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        .id-info { font-size: 14px; margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        .id-b-badge { position: absolute; top: 15px; right: 15px; background: var(--danger); padding: 4px 12px; border-radius: 8px; font-weight: bold; font-size: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .id-tag-num { position: absolute; bottom: 15px; right: 15px; font-size: 10px; opacity: 0.9; font-weight: bold; color: #090296; }
+        /* MEMBER CARD PREMIUM */
+        .member-card { background: white; padding: 15px; border-radius: 20px; margin-bottom: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); border: none; display: flex; align-items: center; gap: 15px; position: relative; text-align: left; transition: 0.3s; }
+        .blood-circle { width: 50px; height: 50px; border-radius: 50%; background: #fff5f5; border: 2px solid #ffebeb; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .blood-text { color: var(--danger); font-weight: 800; font-size: 13px; }
 
-        /* --- 6. MODERN BOTTOM NAV --- */
+        /* PREMIUM ID CARD */
+        .id-card-wrap { width: 100%; max-width: 350px; background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%), linear-gradient(to bottom right, #090296 0%, #04b03a 40%, #f2f54e 60%, #ff0015 80%, #ffffff 100%); margin: 10px auto 25px auto; border-radius: 20px; color: white; padding: 25px; position: relative; border: 3px solid var(--accent); box-shadow: 0 15px 35px rgba(0,0,0,0.2); aspect-ratio: 1.6 / 1; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+        .id-info { font-size: 14px; margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); text-align: left; }
+        .id-b-badge { position: absolute; top: 15px; right: 15px; background: var(--danger); padding: 4px 12px; border-radius: 8px; font-weight: bold; font-size: 14px; }
+
+        /* NAVIGATION & BUTTONS */
         .nav-bar-ui { background: var(--primary); position: fixed; bottom: 0; width: 100%; z-index: 1000; border-radius: 25px 25px 0 0; display: none; padding: 10px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.2); }
         .nav-ui-container { max-width: 500px; margin: 0 auto; display: flex; justify-content: space-around; align-items: center; }
         .nav-ui-item { color: rgba(255,255,255,0.5); cursor: pointer; text-align: center; font-size: 12px; display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; transition: 0.3s; text-decoration: none; }
-        .nav-ui-item i { font-size: 20px; }
         .nav-ui-item.active { color: var(--accent); }
-
         .btn-action { background: var(--primary); color: white; width: 100%; padding: 16px; border-radius: 15px; font-weight: bold; border: none; cursor: pointer; font-size: 16px; }
-        
-        /* New Request Button & Call Button Style */
-        .btn-req-ui { background: #f4f7fa; color: var(--primary); padding: 10px 22px; border-radius: 25px; font-size: 13px; font-weight: bold; border: 1.5px solid var(--primary); cursor: pointer; display: inline-flex; gap: 8px; align-items: center; margin-top: 12px; transition: 0.3s; }
-        .btn-req-ui:hover { background: var(--primary); color: white; }
-        .btn-call-ui { background: var(--secondary); color: white; padding: 10px 22px; border-radius: 25px; font-size: 13px; font-weight: bold; text-decoration: none; display: inline-flex; gap: 8px; align-items: center; margin-top: 12px; box-shadow: 0 4px 12px rgba(4,176,58,0.2); }
+        .btn-req-ui { background: #f4f7fa; color: var(--primary); padding: 8px 18px; border-radius: 25px; font-size: 12px; font-weight: bold; border: 1.5px solid var(--primary); cursor: pointer; margin-top: 8px; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-call-ui { background: var(--secondary); color: white; padding: 8px 18px; border-radius: 25px; font-size: 12px; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; box-shadow: 0 4px 12px rgba(4,176,58,0.2); }
+
+        /* NOTIFICATIONS */
+        .notif-card { background: white; padding: 18px; border-radius: 22px; margin-bottom: 12px; border-left: 6px solid #00d1ff; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: left; }
+        .notif-card.approved-type { border-left-color: var(--secondary); }
+        .btn-approve-sm { background: var(--secondary); color: white; border: none; padding: 8px 18px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 12px; }
+        .btn-reject-sm { background: #eee; color: #666; border: none; padding: 8px 18px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 12px; }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 10000; backdrop-filter: blur(8px); }
     </style>
 </head>
 <body>
 
+    <div id="appHeader" class="header-ui" style="display: none;">
+        <span style="font-weight: 800; color: var(--primary); font-size: 18px;"><i class="fa-solid fa-om"></i> వీరశైవం</span>
+        <div class="notif-btn" onclick="openTab('tabNotif')">
+            <i class="fa-solid fa-bell"></i>
+            <span id="notifBadge" class="notif-badge">0</span>
+        </div>
+    </div>
+
     <div id="screenLogin" class="screen active-screen">
         <div style="background:white; padding:40px; border-radius:30px; max-width:400px; margin:80px auto; text-align:center; box-shadow:0 15px 50px rgba(0,0,0,0.08); border-top:8px solid var(--primary);">
-            <i class="fa-solid fa-om" style="font-size: 55px; color: var(--primary); margin-bottom: 10px;"></i>
+            <i class="fa-solid fa-om" style="font-size: 55px; color: var(--danger); margin-bottom: 10px;"></i>
             <h2 style="color:var(--primary); font-weight: bold;">వీరశైవ లాగిన్</h2>
             <div style="margin-top: 35px;">
                 <div class="f-group"><input type="tel" id="logMobile" placeholder=" "><label>మొబైల్ నంబర్</label></div>
@@ -105,15 +102,24 @@
                 <div class="f-group"><select id="regGender"><option value="" selected disabled></option><option value="Male">Male</option><option value="Female">Female</option></select><label>లింగం *</label></div>
                 <div class="f-group"><input type="text" id="regGotram" placeholder=" "><label>గోత్రం *</label></div>
                 <div class="f-group"><input type="tel" id="regMobile" placeholder=" "><label>మొబైల్ *</label></div>
-                <div class="f-group"><select id="regBlood"><option value="" selected disabled></option><option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option><option value="B-">B-</option><option value="O+">O+</option><option value="O-">O-</option><option value="AB+">AB+</option><option value="AB-">AB-</option></select><label>బ్లడ్ గ్రూప్ *</label></div>
+                <div class="f-group">
+                    <select id="regBlood">
+                        <option value="" selected disabled></option>
+                        <option value="A+">A+</option><option value="A-">A-</option>
+                        <option value="B+">B+</option><option value="B-">B-</option>
+                        <option value="O+">O+</option><option value="O-">O-</option>
+                        <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                    </select>
+                    <label>బ్లడ్ గ్రూప్ *</label>
+                </div>
                 <div class="f-group"><input type="text" id="regJob" placeholder=" "><label>వృత్తి *</label></div>
                 <div class="f-group"><input type="password" id="regPass" placeholder=" "><label>పాస్ వర్డ్ *</label></div>
                 <div class="f-group"><input type="text" id="regVillage" placeholder=" "><label>ఊరు *</label></div>
-                <div class="f-group"><input type="number" id="regPin" placeholder=" "><label>పిన్ కోడ్</label></div>
-                <div class="f-group"><input type="text" id="regMandal" placeholder=" "><label>మండలం</label></div>
-                <div class="f-group"><input type="text" id="regDist" placeholder=" "><label>జిల్లా</label></div>
-                <div class="f-group" style="grid-column: 1 / -1;"><input type="text" id="regState" placeholder=" "><label>రాష్ట్రం</label></div>
-                <div class="f-group" style="grid-column: 1 / -1;"><input type="email" id="regEmail" placeholder=" "><label>ఈమెయిల్</label></div>
+                <div class="f-group"><input type="number" id="regPin" placeholder=" "><label>పిన్ కోడ్ *</label></div>
+                <div class="f-group"><input type="text" id="regMandal" placeholder=" "><label>మండలం *</label></div>
+                <div class="f-group"><input type="text" id="regDist" placeholder=" "><label>జిల్లా *</label></div>
+                <div class="f-group"><input type="text" id="regState" placeholder=" "><label>రాష్ట్రం *</label></div>
+                <div class="f-group"><input type="email" id="regEmail" placeholder=" "><label>ఈమెయిల్</label></div>
             </div>
             <button class="btn-action" style="background:var(--secondary);" onclick="handleRegister()">రిజిస్టర్ అవ్వండి</button>
             <p style="text-align:center; margin-top:15px;"><a href="#" onclick="showScreen('screenLogin')" style="color:var(--primary); font-weight:bold; text-decoration:none;">లాగిన్ పేజీకి</a></p>
@@ -124,25 +130,39 @@
         <div class="nav-ui-container">
             <div class="nav-ui-item active" id="btnDir" onclick="openTab('tabDir')"><i class="fa-solid fa-house-user"></i><span>సభ్యులు</span></div>
             <div class="nav-ui-item" id="btnProf" onclick="openTab('tabProf')"><i class="fa-solid fa-address-card"></i><span>ప్రొఫైల్</span></div>
-            <div class="nav-ui-item" onclick="location.reload()" style="color:#ffaaaa;"><i class="fa-solid fa-power-off"></i><span>లాగ్ అవుట్</span></div>
+            <div class="nav-ui-item" onclick="handleLogout()" style="color:#ffaaaa;"><i class="fa-solid fa-power-off"></i><span>నిష్క్రమించు</span></div>
         </div>
     </nav>
 
     <div id="screenDash" class="screen">
         <div class="notice-container">
             <div class="notice-icon-box"><i class="fa-solid fa-bullhorn"></i></div>
-            <div class="notice-content"><span class="notice-label-small">ముఖ్య గమనిక</span><marquee id="noticeText" onmouseover="this.stop();" onmouseout="this.start();">సమాచారం లోడ్ అవుతోంది...</marquee></div>
+            <marquee id="noticeText">సమాచారం లోడ్ అవుతోంది...</marquee>
         </div>
 
         <div id="tabDir">
             <div class="filter-wrap">
                 <div class="srch-box"><i class="fa-solid fa-magnifying-glass f-icon-ui"></i><input type="text" id="dirSearch" onkeyup="filterDir()" placeholder="పేరు లేదా ఊరు..."></div>
-                <div class="bld-box"><i class="fa-solid fa-droplet f-icon-ui" style="color:red;"></i><select id="bloodFilter" onchange="filterDir()"><option value="">బ్లడ్ (All)</option><option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option><option value="B-">B-</option><option value="O+">O+</option><option value="O-">O-</option><option value="AB+">AB+</option><option value="AB-">AB-</option></select></div>
+                <div class="bld-box">
+                    <i class="fa-solid fa-droplet f-icon-ui" style="color:red;"></i>
+                    <select id="bloodFilter" onchange="filterDir()">
+                        <option value="">బ్లడ్ (All)</option>
+                        <option value="A+">A+</option><option value="A-">A-</option>
+                        <option value="B+">B+</option><option value="B-">B-</option>
+                        <option value="O+">O+</option><option value="O-">O-</option>
+                        <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                    </select>
+                </div>
             </div>
             <div id="dirListContainer"></div>
         </div>
 
-        <div id="tabProf" style="display:none;">
+        <div id="tabNotif" style="display: none; padding: 10px;">
+            <h3 style="text-align:center; margin-bottom:20px; color:var(--primary);"><i class="fa-solid fa-bell"></i> నోటిఫికేషన్లు</h3>
+            <div id="notifListContainer"></div>
+        </div>
+
+        <div id="tabProf" style="display:none; text-align:center;">
             <div class="id-card-wrap" id="idCard">
                 <div class="id-b-badge" id="idBloodDisplay"></div>
                 <h3>వీరశైవ సభ్యత్వం</h3>
@@ -151,20 +171,29 @@
                 <div class="id-info"><b>ఊరు:</b> <span id="idVillage"></span></div>
                 <div class="id-tag-num">ID: <span id="idMemberDisplay"></span></div>
             </div>
-            <button class="btn-action" style="margin-bottom:25px;" onclick="downloadCard()"><i class="fa-solid fa-download"></i> ID కార్డ్ డౌన్లోడ్</button>
-            <div style="background:white; padding:30px; border-radius:30px; border-top:8px solid var(--primary); box-shadow:0 5px 20px rgba(0,0,0,0.05);">
+            <button class="btn-action" style="margin-top:15px; margin-bottom:25px; max-width:350px;" onclick="downloadCard()"><i class="fa-solid fa-download"></i> ID కార్డ్ డౌన్లోడ్</button>
+            <div style="background:white; padding:30px; border-radius:30px; border-top:8px solid var(--primary); box-shadow:0 5px 20px rgba(0,0,0,0.05); text-align:left;">
                 <h3 style="margin-bottom:25px; color:var(--primary); font-weight: bold;">వివరాలు మార్చుకోండి</h3>
                 <input type="hidden" id="curUserId">
                 <div class="reg-grid">
-                    <div class="f-group" style="grid-column: 1 / -1;"><input type="text" id="uMemberId" readonly placeholder=" " style="background:#f9f9f9;"><label>Unique ID</label></div>
+                    <div class="f-group" style="grid-column: 1 / -1;"><input type="text" id="uMemberId" readonly style="background:#f9f9f9;"><label>Unique ID</label></div>
                     <div class="f-group"><input type="text" id="uFname" placeholder=" "><label>పేరు</label></div>
                     <div class="f-group"><input type="text" id="uLname" placeholder=" "><label>ఇంటి పేరు</label></div>
                     <div class="f-group"><select id="uGender"><option value="Male">Male</option><option value="Female">Female</option></select><label>లింగం</label></div>
                     <div class="f-group"><input type="text" id="uGotram" placeholder=" "><label>గోత్రం</label></div>
-                    <div class="f-group"><input type="tel" id="uMobile" disabled><label>మొబైల్</label></div>
+                    <div class="f-group"><input type="tel" id="uMobile" disabled><label>మొబైల్ (మార్చలేరు)</label></div>
                     <div class="f-group"><input type="text" id="uJob" placeholder=" "><label>వృత్తి</label></div>
-                    <div class="f-group"><select id="uBlood"><option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option><option value="B-">B-</option><option value="O+">O+</option><option value="O-">O-</option><option value="AB+">AB+</option><option value="AB-">AB-</option></select><label>బ్లడ్ గ్రూప్</label></div>
+                    <div class="f-group">
+                        <select id="uBlood">
+                            <option value="A+">A+</option><option value="A-">A-</option>
+                            <option value="B+">B+</option><option value="B-">B-</option>
+                            <option value="O+">O+</option><option value="O-">O-</option>
+                            <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                        </select>
+                        <label>బ్లడ్ గ్రూప్</label>
+                    </div>
                     <div class="f-group"><input type="text" id="uVillage" placeholder=" "><label>ఊరు</label></div>
+                    <div class="f-group"><input type="number" id="uPin" placeholder=" "><label>పిన్ కోడ్</label></div>
                     <div class="f-group"><input type="text" id="uMandal" placeholder=" "><label>మండలం</label></div>
                     <div class="f-group"><input type="text" id="uDist" placeholder=" "><label>జిల్లా</label></div>
                     <div class="f-group"><input type="text" id="uState" placeholder=" "><label>రాష్ట్రం</label></div>
@@ -188,199 +217,219 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, query, where, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyDOp_RBaqwTG7hq4_ZUbm4Clb0_LFXX7qw", authDomain: "veerasaivam-9f4f3.firebaseapp.com", projectId: "veerasaivam-9f4f3", storageBucket: "veerasaivam-9f4f3.firebasestorage.app", messagingSenderId: "69482522926", appId: "1:69482522926:web:c1a2790884eb3c4e05b2bf" };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // CURRENT USER STATE
         let loggedUserMemberId = "";
         let loggedUserFirstName = "";
+        let unsubDirMembers = null, unsubDirRequests = null;
 
         window.togglePass = (id, el) => {
             const input = document.getElementById(id);
-            if(input.type === "password") { input.type = "text"; el.classList.replace("fa-eye", "fa-eye-slash"); }
-            else { input.type = "password"; el.classList.replace("fa-eye-slash", "fa-eye"); }
+            input.type = input.type === "password" ? "text" : "password";
+            el.classList.toggle("fa-eye-slash");
         };
-
-        onSnapshot(doc(db, "app_settings", "notice"), (d) => { if (d.exists()) document.getElementById('noticeText').innerText = d.data().text; });
 
         window.showAlert = (t, m, type = 'success') => {
             document.getElementById('alertTitle').innerText = t; document.getElementById('alertMsg').innerText = m;
             document.getElementById('alertIcon').style.color = type === 'success' ? 'var(--secondary)' : 'var(--danger)';
+            document.getElementById('alertIcon').className = type === 'success' ? 'fa-solid fa-circle-check' : 'fa-solid fa-circle-xmark';
             document.getElementById('customAlert').style.display = 'flex';
         };
 
-        window.closeAlert = () => { document.getElementById('customAlert').style.display = 'none'; if(document.getElementById('alertTitle').innerText.includes("విజయం")) location.reload(); };
-
+        window.closeAlert = () => document.getElementById('customAlert').style.display = 'none';
         window.showScreen = (id) => { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen')); document.getElementById(id).classList.add('active-screen'); };
 
         window.openTab = (id) => {
-            document.getElementById('tabDir').style.display = id === 'tabDir' ? 'block' : 'none'; document.getElementById('tabProf').style.display = id === 'tabProf' ? 'block' : 'none';
-            document.getElementById('btnDir').classList.toggle('active', id === 'tabDir'); document.getElementById('btnProf').classList.toggle('active', id === 'tabProf');
+            ['tabDir', 'tabProf', 'tabNotif'].forEach(t => document.getElementById(t).style.display = t === id ? 'block' : 'none');
+            document.getElementById('btnDir').classList.toggle('active', id === 'tabDir');
+            document.getElementById('btnProf').classList.toggle('active', id === 'tabProf');
+            if(id === 'tabNotif') document.getElementById('notifBadge').style.display = 'none';
         };
 
-        window.handleRegister = async () => {
-            const f = document.getElementById('regFname').value; const m = document.getElementById('regMobile').value;
-            const g = document.getElementById('regGender').value; const b = document.getElementById('regBlood').value;
-            if(!f || !m || !g || !b) return showAlert("గమనిక", "వివరాలన్నీ నింపండి!", "error");
-            try {
-                const uniqueId = `VS-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
-                await addDoc(collection(db, "user_registrations"), {
-                    memberId: uniqueId, firstName: f, lastName: document.getElementById('regLname').value, gender: g, gotram: document.getElementById('regGotram').value, mobile: m, password: document.getElementById('regPass').value, bloodGroup: b, profession: document.getElementById('regJob').value, village: document.getElementById('regVillage').value, pincode: document.getElementById('regPin').value, mandal: document.getElementById('regMandal').value, district: document.getElementById('regDist').value, state: document.getElementById('regState').value, email: document.getElementById('regEmail').value, submittedAt: new Date()
-                });
-                showAlert("విజయం!", `రిజిస్ట్రేషన్ పూర్తయింది. ఐడి: ${uniqueId}`);
-                showScreen('screenLogin');
-            } catch (e) { alert(e.message); }
-        };
+        onSnapshot(doc(db, "app_settings", "notice"), (d) => { if (d.exists()) document.getElementById('noticeText').innerText = d.data().text; });
 
+        // --- LOGIN WITH SESSION SAVING ---
         window.handleLogin = async () => {
-            const m = document.getElementById('logMobile').value; const p = document.getElementById('logPass').value;
+            const m = document.getElementById('logMobile').value, p = document.getElementById('logPass').value;
             const q = query(collection(db, "user_registrations"), where("mobile", "==", m), where("password", "==", p));
             const snap = await getDocs(q);
             if (!snap.empty) {
-                const user = snap.docs[0]; const d = user.data();
-                loggedUserMemberId = d.memberId;
-                loggedUserFirstName = d.firstName;
-                showScreen('screenDash'); document.getElementById('mainNav').style.display = 'block';
-                document.getElementById('idName').innerText = d.firstName + " " + (d.lastName || "");
-                document.getElementById('idJob').innerText = d.profession || "N/A";
-                document.getElementById('idVillage').innerText = d.village;
-                document.getElementById('idBloodDisplay').innerText = d.bloodGroup;
-                document.getElementById('idMemberDisplay').innerText = d.memberId || "N/A";
-                document.getElementById('curUserId').value = user.id;
-                document.getElementById('uMemberId').value = d.memberId || "VS-####";
-                document.getElementById('uFname').value = d.firstName || "";
-                document.getElementById('uLname').value = d.lastName || "";
-                document.getElementById('uGender').value = d.gender || "Male";
-                document.getElementById('uGotram').value = d.gotram || "";
-                document.getElementById('uMobile').value = d.mobile || "";
-                document.getElementById('uJob').value = d.profession || "";
-                document.getElementById('uBlood').value = d.bloodGroup || "O+";
-                document.getElementById('uVillage').value = d.village || "";
-                document.getElementById('uMandal').value = d.mandal || "";
-                document.getElementById('uDist').value = d.district || "";
-                document.getElementById('uState').value = d.state || "";
-                document.getElementById('uEmail').value = d.email || "";
-                document.getElementById('uPass').value = d.password || "";
-                loadDir();
-            } else { showAlert("క్షమించండి", "వివరాలు తప్పు!", "error"); }
+                const userDoc = snap.docs[0];
+                const d = userDoc.data();
+                d.firebaseId = userDoc.id; // Edit profile కోసం అసలు ID
+                
+                localStorage.setItem("loggedUser", JSON.stringify(d));
+                setupUserUI(d);
+            } else showAlert("క్షమించండి", "వివరాలు తప్పు!", "error");
         };
 
-        async function loadDir() {
-            try {
-                // 1. Fetch all members and this user's requests in parallel
-                const [membersSnap, requestsSnap] = await Promise.all([
-                    getDocs(collection(db, "user_registrations")),
-                    getDocs(query(collection(db, "phone_requests"), where("fromId", "==", loggedUserMemberId)))
-                ]);
-
-                // 2. Map existing requests for quick lookup
-                const myRequests = {};
-                requestsSnap.forEach(doc => {
-                    const data = doc.data();
-                    myRequests[data.toId] = data.status;
-                });
-
-                const container = document.getElementById('dirListContainer'); container.innerHTML = "";
-                
-                membersSnap.forEach(doc => {
-                    const d = doc.data(); 
-                    const isFemale = (d.gender === "Female");
-                    
-                    // Don't show current user in directory
-                    if(d.memberId === loggedUserMemberId) return;
-
-                    let actionHtml = "";
-                    const reqStatus = myRequests[d.memberId];
-
-                    if (reqStatus === "Approved") {
-                        // Show Call Button with Phone Number
-                        actionHtml = `<a href="tel:${d.mobile}" class="btn-call-ui"><i class="fa-solid fa-phone"></i> ${d.mobile} (Call)</a>`;
-                    } else if (reqStatus === "Pending") {
-                        // Show Pending Status
-                        actionHtml = `<span style="color:orange; font-size:12px; font-weight:bold; margin-top:12px; display:inline-block;"><i class="fa-solid fa-clock"></i> Request Pending</span>`;
-                    } else {
-                        // Show Request Button
-                        actionHtml = `<button class="btn-req-ui" onclick="requestNumber('${d.memberId}', '${d.firstName}')">
-                                        <i class="fa-solid fa-paper-plane"></i> నంబర్ కావాలి (Request)
-                                      </button>`;
-                    }
-
-                    container.innerHTML += `
-                        <div class="member-card" data-blood="${d.bloodGroup}">
-                            <div class="b-tag">${d.bloodGroup || '-'}</div>
-                            <div style="display:flex; align-items:center; gap:8px;"><b style="font-size:17px; color:var(--primary);">${d.firstName} ${d.lastName || ""}</b> <i class="fa-solid fa-${isFemale ? 'venus' : 'mars'}" style="color:${isFemale?'#ff69b4':'#00d1ff'}; font-size:14px;"></i></div>
-                            <div style="font-size:13px; color:#555; margin-top:8px;"><i class="fa-solid fa-briefcase"></i> ${d.profession || 'Business'}</div>
-                            <div style="font-size:12px; color:#888; margin-top:3px;"><i class="fa-solid fa-location-dot"></i> ${d.village} | ID: ${d.memberId || '-'}</div>
-                            <div id="action-${d.memberId}">${actionHtml}</div>
-                        </div>`;
-                });
-            } catch (e) { console.error(e); }
+        function setupUserUI(d) {
+            loggedUserMemberId = d.memberId; loggedUserFirstName = d.firstName;
+            showScreen('screenDash'); document.getElementById('mainNav').style.display = 'block'; document.getElementById('appHeader').style.display = 'flex';
+            
+            document.getElementById('idName').innerText = d.firstName + " " + (d.lastName || "");
+            document.getElementById('idJob').innerText = d.profession || "N/A";
+            document.getElementById('idVillage').innerText = d.village;
+            document.getElementById('idBloodDisplay').innerText = d.bloodGroup;
+            document.getElementById('idMemberDisplay').innerText = d.memberId;
+            
+            document.getElementById('curUserId').value = d.firebaseId;
+            document.getElementById('uMemberId').value = d.memberId || "";
+            document.getElementById('uFname').value = d.firstName || "";
+            document.getElementById('uLname').value = d.lastName || "";
+            document.getElementById('uGender').value = d.gender || "Male";
+            document.getElementById('uGotram').value = d.gotram || "";
+            document.getElementById('uMobile').value = d.mobile || "";
+            document.getElementById('uJob').value = d.profession || "";
+            document.getElementById('uBlood').value = d.bloodGroup || "";
+            document.getElementById('uVillage').value = d.village || "";
+            document.getElementById('uPin').value = d.pincode || "";
+            document.getElementById('uMandal').value = d.mandal || "";
+            document.getElementById('uDist').value = d.district || "";
+            document.getElementById('uState').value = d.state || "";
+            document.getElementById('uEmail').value = d.email || "";
+            document.getElementById('uPass').value = d.password || "";
+            
+            startRealtimeDirectory();
+            listenNotifications();
         }
 
-        // --- REQUEST NUMBER FUNCTIONALITY ---
-        window.requestNumber = async (targetId, targetName) => {
-            try {
-                // Prevent self-request
-                if(targetId === loggedUserMemberId) {
-                    return showAlert("గమనిక", "మీ నంబర్ మీరే రిక్వెస్ట్ చేసుకోలేరు కదా!", "error");
-                }
+        window.handleLogout = () => { localStorage.removeItem("loggedUser"); location.reload(); };
 
-                // Check for existing request (Prevent Duplicate)
-                const q = query(collection(db, "phone_requests"), 
-                    where("fromId", "==", loggedUserMemberId), 
-                    where("toId", "==", targetId)
-                );
-                const querySnapshot = await getDocs(q);
+        // రిఫ్రెష్ చేసినా లాగిన్ అలాగే ఉండటానికి
+        window.onload = () => {
+            const savedUser = localStorage.getItem("loggedUser");
+            if (savedUser) setupUserUI(JSON.parse(savedUser));
+        };
 
-                if (!querySnapshot.empty) {
-                    showAlert("గమనిక", `మీరు ఇప్పటికే ${targetName} గారికి అభ్యర్థన పంపారు.`, "error");
-                    return;
-                }
+        function startRealtimeDirectory() {
+            if(unsubDirMembers) unsubDirMembers(); if(unsubDirRequests) unsubDirRequests();
+            let allMembers = []; let myRequests = {};
 
-                // Add new request
-                await addDoc(collection(db, "phone_requests"), {
-                    fromId: loggedUserMemberId,
-                    fromName: loggedUserFirstName,
-                    toId: targetId,
-                    toName: targetName,
-                    status: "Pending",
-                    requestedAt: new Date()
+            const updateUI = () => {
+                const container = document.getElementById('dirListContainer'); container.innerHTML = "";
+                const myPin = document.getElementById('uPin').value;
+                const myVillage = document.getElementById('uVillage').value;
+                const myMandal = document.getElementById('uMandal').value;
+                const myDist = document.getElementById('uDist').value;
+
+                let sortedMembers = allMembers.filter(m => m.memberId !== loggedUserMemberId).sort((a, b) => {
+                    if (a.pincode === myPin && b.pincode !== myPin) return -1;
+                    if (b.pincode === myPin && a.pincode !== myPin) return 1;
+                    if (a.village === myVillage && b.village !== myVillage) return -1;
+                    if (b.village === myVillage && a.village !== myVillage) return 1;
+                    if (a.mandal === myMandal && b.mandal !== myMandal) return -1;
+                    if (b.mandal === myMandal && a.mandal !== myMandal) return 1;
+                    if (a.district === myDist && b.district !== myDist) return -1;
+                    if (b.district === myDist && a.district !== myDist) return 1;
+                    return 0;
                 });
 
-                showAlert("పంపబడింది", `${targetName} గారి నంబర్ కోసం అభ్యర్థన పంపబడింది. అడ్మిన్ అప్రూవ్ చేయగానే మీకు కనిపిస్తుంది.`, "success");
-                document.getElementById(`action-${targetId}`).innerHTML = `<span style="color:orange; font-size:12px; font-weight:bold; margin-top:12px; display:inline-block;"><i class="fa-solid fa-clock"></i> Request Pending</span>`;
+                sortedMembers.forEach(d => {
+                    let actionHtml = ""; const status = myRequests[d.memberId];
+                    if (status === "Approved") actionHtml = `<a href="tel:${d.mobile}" class="btn-call-ui"><i class="fa-solid fa-phone"></i> కాల్ చేయండి</a>`;
+                    else if (status === "Pending") actionHtml = `<span style="color:orange; font-size:12px; margin-top:10px; font-weight:bold;"><i class="fa-solid fa-clock"></i> Request Pending</span>`;
+                    else actionHtml = `<button class="btn-req-ui" onclick="requestNumber('${d.memberId}', '${d.firstName}')"><i class="fa-solid fa-paper-plane"></i> నంబర్ కావాలి</button>`;
+                    
+                    container.innerHTML += `
+                    <div class="member-card">
+                        <div class="blood-circle"><span class="blood-text">${d.bloodGroup || '-'}</span></div>
+                        <div style="flex-grow: 1;">
+                            <b style="font-size: 16px; color: var(--primary); display: block;">${d.firstName} ${d.lastName || ''}</b>
+                            <div style="font-size: 12px; color: #777; margin-top: 4px;">
+                                <span><i class="fa-solid fa-location-dot" style="color:#aaa;"></i> ${d.village}, ${d.mandal}</span><br>
+                                <span style="opacity: 0.7;">ID: ${d.memberId} | Pin: ${d.pincode || '-'}</span>
+                            </div>
+                            <div id="action-${d.memberId}">${actionHtml}</div>
+                        </div>
+                        <div style="align-self: flex-start; opacity: 0.3;">
+                            <i class="fa-solid fa-${d.gender === 'Female' ? 'venus' : 'mars'}" style="font-size: 14px;"></i>
+                        </div>
+                    </div>`;
+                });
+            };
+            unsubDirMembers = onSnapshot(collection(db, "user_registrations"), (snap) => { allMembers = snap.docs.map(doc => { let dat = doc.data(); dat.firebaseId = doc.id; return dat; }); updateUI(); });
+            unsubDirRequests = onSnapshot(query(collection(db, "phone_requests"), where("fromId", "==", loggedUserMemberId)), (snap) => {
+                myRequests = {}; snap.forEach(doc => { myRequests[doc.data().toId] = doc.data().status; }); updateUI();
+            });
+        }
 
-            } catch (e) {
-                alert("Error: " + e.message);
-            }
+        function listenNotifications() {
+            const q = query(collection(db, "notifications"), where("toId", "==", loggedUserMemberId));
+            onSnapshot(q, (snap) => {
+                const badge = document.getElementById('notifBadge');
+                const container = document.getElementById('notifListContainer');
+                container.innerHTML = ""; let unread = 0;
+                if(snap.empty) { container.innerHTML = "<p style='text-align:center; color:#999; margin-top:30px;'>నోటిఫికేషన్లు లేవు.</p>"; badge.style.display = 'none'; return; }
+                const docs = snap.docs.sort((a, b) => (b.data().time?.toMillis() || 0) - (a.data().time?.toMillis() || 0));
+                docs.forEach(docSnap => {
+                    const n = docSnap.data(); if(!n.read) unread++;
+                    let actionBtns = (n.type === 'DirectRequest' && !n.handled) ? `
+                        <div style="margin-top:12px; display:flex; gap:10px;">
+                            <button class="btn-approve-sm" onclick="approveDirect('${docSnap.id}', '${n.fromId}', '${n.fromName}')">Approve</button>
+                            <button class="btn-reject-sm" onclick="deleteNotif('${docSnap.id}')">Reject</button>
+                        </div>` : "";
+                    container.innerHTML += `<div class="notif-card ${n.type==='Approved'?'approved-type':''}" style="border-left:6px solid ${n.type==='Approved'?'var(--secondary)':'#00d1ff'}"><b>${n.title}</b><span style="display:block; margin-top:4px;">${n.message}</span>${actionBtns}</div>`;
+                });
+                if(unread > 0) { badge.innerText = unread; badge.style.display = 'block'; } else badge.style.display = 'none';
+            });
+        }
+
+        window.requestNumber = async (tid, tname) => {
+            try {
+                await addDoc(collection(db, "phone_requests"), { fromId: loggedUserMemberId, fromName: loggedUserFirstName, toId: tid, toName: tname, status: "Pending", requestedAt: new Date() });
+                await addDoc(collection(db, "notifications"), { toId: tid, fromId: loggedUserMemberId, fromName: loggedUserFirstName, title: "కొత్త రిక్వెస్ట్! 📱", message: `${loggedUserFirstName} గారు మీ నంబర్ అడిగారు.`, type: 'DirectRequest', time: new Date(), read: false, handled: false });
+                showAlert("పంపబడింది", "నంబర్ కోసం అభ్యర్థన పంపబడింది!");
+            } catch(e) { showAlert("Error", e.message, "error"); }
+        };
+
+        window.approveDirect = async (notifId, requesterId, requesterName) => {
+            try {
+                const q = query(collection(db, "phone_requests"), where("fromId", "==", requesterId), where("toId", "==", loggedUserMemberId));
+                const snap = await getDocs(q);
+                for(let d of snap.docs) { await updateDoc(doc(db, "phone_requests", d.id), { status: "Approved" }); }
+                await addDoc(collection(db, "notifications"), { toId: requesterId, title: "అనుమతి లభించింది! ✅", message: `${loggedUserFirstName} గారు తన నంబర్ చూడటానికి మీకు అనుమతి ఇచ్చారు.`, type: 'Approved', time: new Date(), read: false });
+                await updateDoc(doc(db, "notifications", notifId), { handled: true, read: true });
+                showAlert("విజయం", "మీరు అనుమతి ఇచ్చారు!");
+            } catch(e) { showAlert("Error", e.message, "error"); }
+        };
+
+        window.deleteNotif = async (id) => await deleteDoc(doc(db, "notifications", id));
+
+        window.handleRegister = async () => {
+            const f = document.getElementById('regFname').value, m = document.getElementById('regMobile').value;
+            if(!f || !m) return showAlert("గమనిక", "వివరాలన్నీ నింపండి!", "error");
+            const uid = `VS-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+            const regData = { memberId: uid, firstName: f, lastName: document.getElementById('regLname').value, gender: document.getElementById('regGender').value, gotram: document.getElementById('regGotram').value, mobile: m, bloodGroup: document.getElementById('regBlood').value, profession: document.getElementById('regJob').value, password: document.getElementById('regPass').value, village: document.getElementById('regVillage').value, pincode: document.getElementById('regPin').value, mandal: document.getElementById('regMandal').value, district: document.getElementById('regDist').value, state: document.getElementById('regState').value, email: document.getElementById('regEmail').value, submittedAt: new Date() };
+            await addDoc(collection(db, "user_registrations"), regData);
+            showAlert("విజయం!", `రిజిస్ట్రేషన్ పూర్తయింది. ఐడి: ${uid}`); showScreen('screenLogin');
         };
 
         window.updateProfile = async () => {
             const id = document.getElementById('curUserId').value;
             try {
-                await updateDoc(doc(db, "user_registrations", id), {
-                    firstName: document.getElementById('uFname').value, lastName: document.getElementById('uLname').value, gender: document.getElementById('uGender').value, gotram: document.getElementById('uGotram').value, profession: document.getElementById('uJob').value, bloodGroup: document.getElementById('uBlood').value, village: document.getElementById('uVillage').value, mandal: document.getElementById('uMandal').value, district: document.getElementById('uDist').value, state: document.getElementById('uState').value, email: document.getElementById('uEmail').value, password: document.getElementById('uPass').value
-                });
-                showAlert("విజయం!", "వివరాలు అప్‌డేట్ అయ్యాయి.");
-            } catch (e) { alert(e.message); }
+                const upData = { firstName: document.getElementById('uFname').value, lastName: document.getElementById('uLname').value, gender: document.getElementById('uGender').value, gotram: document.getElementById('uGotram').value, profession: document.getElementById('uJob').value, bloodGroup: document.getElementById('uBlood').value, village: document.getElementById('uVillage').value, pincode: document.getElementById('uPin').value, mandal: document.getElementById('uMandal').value, district: document.getElementById('uDist').value, state: document.getElementById('uState').value, email: document.getElementById('uEmail').value, password: document.getElementById('uPass').value };
+                await updateDoc(doc(db, "user_registrations", id), upData);
+                // LocalStorage కూడా అప్‌డేట్ చేయాలి
+                const saved = JSON.parse(localStorage.getItem("loggedUser"));
+                localStorage.setItem("loggedUser", JSON.stringify({...saved, ...upData}));
+                showAlert("విజయం!", "ప్రొఫైల్ వివరాలు అప్‌డేట్ అయ్యాయి.");
+            } catch (e) { showAlert("Error", e.message, "error"); }
         };
 
-        window.downloadCard = () => {
-            html2canvas(document.getElementById('idCard'), { scale: 3 }).then(canvas => {
-                const link = document.createElement('a'); link.download = `ID_CARD.png`; link.href = canvas.toDataURL(); link.click();
-            });
-        };
+        window.downloadCard = () => { html2canvas(document.getElementById('idCard'), { scale: 3 }).then(canvas => { const link = document.createElement('a'); link.download = `ID_CARD.png`; link.href = canvas.toDataURL(); link.click(); }); };
 
         window.filterDir = () => {
-            let searchVal = document.getElementById('dirSearch').value.toLowerCase();
-            let bloodVal = document.getElementById('bloodFilter').value;
+            let val = document.getElementById('dirSearch').value.toLowerCase();
+            let bld = document.getElementById('bloodFilter').value;
             document.querySelectorAll('.member-card').forEach(card => {
-                let textMatch = card.innerText.toLowerCase().includes(searchVal);
-                let bloodMatch = bloodVal === "" || card.getAttribute('data-blood') === bloodVal;
-                card.style.display = (textMatch && bloodMatch) ? "block" : "none";
+                let textMatch = card.innerText.toLowerCase().includes(val);
+                let bloodMatch = bld === "" || card.innerText.includes(bld);
+                card.style.display = (textMatch && bloodMatch) ? "flex" : "none";
             });
         };
     </script>
