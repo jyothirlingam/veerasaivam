@@ -72,7 +72,12 @@
         .nav-ui-item.active { color: var(--accent); }
 
         .btn-action { background: var(--primary); color: white; width: 100%; padding: 16px; border-radius: 15px; font-weight: bold; border: none; cursor: pointer; font-size: 16px; }
-        .btn-call { background: var(--secondary); color: white; padding: 10px 22px; border-radius: 25px; font-size: 13px; text-decoration: none; display: inline-flex; margin-top: 12px; font-weight: bold; box-shadow: 0 4px 12px rgba(4,176,58,0.2); }
+        
+        /* New Request Button & Call Button Style */
+        .btn-req-ui { background: #f4f7fa; color: var(--primary); padding: 10px 22px; border-radius: 25px; font-size: 13px; font-weight: bold; border: 1.5px solid var(--primary); cursor: pointer; display: inline-flex; gap: 8px; align-items: center; margin-top: 12px; transition: 0.3s; }
+        .btn-req-ui:hover { background: var(--primary); color: white; }
+        .btn-call-ui { background: var(--secondary); color: white; padding: 10px 22px; border-radius: 25px; font-size: 13px; font-weight: bold; text-decoration: none; display: inline-flex; gap: 8px; align-items: center; margin-top: 12px; box-shadow: 0 4px 12px rgba(4,176,58,0.2); }
+
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 10000; backdrop-filter: blur(8px); }
     </style>
 </head>
@@ -189,6 +194,10 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // CURRENT USER STATE
+        let loggedUserMemberId = "";
+        let loggedUserFirstName = "";
+
         window.togglePass = (id, el) => {
             const input = document.getElementById(id);
             if(input.type === "password") { input.type = "text"; el.classList.replace("fa-eye", "fa-eye-slash"); }
@@ -232,6 +241,8 @@
             const snap = await getDocs(q);
             if (!snap.empty) {
                 const user = snap.docs[0]; const d = user.data();
+                loggedUserMemberId = d.memberId;
+                loggedUserFirstName = d.firstName;
                 showScreen('screenDash'); document.getElementById('mainNav').style.display = 'block';
                 document.getElementById('idName').innerText = d.firstName + " " + (d.lastName || "");
                 document.getElementById('idJob').innerText = d.profession || "N/A";
@@ -259,21 +270,93 @@
 
         async function loadDir() {
             try {
-                const snap = await getDocs(collection(db, "user_registrations"));
+                // 1. Fetch all members and this user's requests in parallel
+                const [membersSnap, requestsSnap] = await Promise.all([
+                    getDocs(collection(db, "user_registrations")),
+                    getDocs(query(collection(db, "phone_requests"), where("fromId", "==", loggedUserMemberId)))
+                ]);
+
+                // 2. Map existing requests for quick lookup
+                const myRequests = {};
+                requestsSnap.forEach(doc => {
+                    const data = doc.data();
+                    myRequests[data.toId] = data.status;
+                });
+
                 const container = document.getElementById('dirListContainer'); container.innerHTML = "";
-                snap.forEach(doc => {
-                    const d = doc.data(); const isFemale = (d.gender === "Female");
+                
+                membersSnap.forEach(doc => {
+                    const d = doc.data(); 
+                    const isFemale = (d.gender === "Female");
+                    
+                    // Don't show current user in directory
+                    if(d.memberId === loggedUserMemberId) return;
+
+                    let actionHtml = "";
+                    const reqStatus = myRequests[d.memberId];
+
+                    if (reqStatus === "Approved") {
+                        // Show Call Button with Phone Number
+                        actionHtml = `<a href="tel:${d.mobile}" class="btn-call-ui"><i class="fa-solid fa-phone"></i> ${d.mobile} (Call)</a>`;
+                    } else if (reqStatus === "Pending") {
+                        // Show Pending Status
+                        actionHtml = `<span style="color:orange; font-size:12px; font-weight:bold; margin-top:12px; display:inline-block;"><i class="fa-solid fa-clock"></i> Request Pending</span>`;
+                    } else {
+                        // Show Request Button
+                        actionHtml = `<button class="btn-req-ui" onclick="requestNumber('${d.memberId}', '${d.firstName}')">
+                                        <i class="fa-solid fa-paper-plane"></i> నంబర్ కావాలి (Request)
+                                      </button>`;
+                    }
+
                     container.innerHTML += `
                         <div class="member-card" data-blood="${d.bloodGroup}">
                             <div class="b-tag">${d.bloodGroup || '-'}</div>
                             <div style="display:flex; align-items:center; gap:8px;"><b style="font-size:17px; color:var(--primary);">${d.firstName} ${d.lastName || ""}</b> <i class="fa-solid fa-${isFemale ? 'venus' : 'mars'}" style="color:${isFemale?'#ff69b4':'#00d1ff'}; font-size:14px;"></i></div>
                             <div style="font-size:13px; color:#555; margin-top:8px;"><i class="fa-solid fa-briefcase"></i> ${d.profession || 'Business'}</div>
                             <div style="font-size:12px; color:#888; margin-top:3px;"><i class="fa-solid fa-location-dot"></i> ${d.village} | ID: ${d.memberId || '-'}</div>
-                            <div>${isFemale ? `<div style="background:#f9f9f9; color:#999; padding:8px 18px; border-radius:25px; font-size:12px; display:inline-flex; margin-top:12px; border:1px dashed #ccc; font-weight:bold;">Privacy Mode</div>` : `<a href="tel:${d.mobile}" class="btn-call"><i class="fa-solid fa-phone"></i> కాల్ చేయండి</a>`}</div>
+                            <div id="action-${d.memberId}">${actionHtml}</div>
                         </div>`;
                 });
             } catch (e) { console.error(e); }
         }
+
+        // --- REQUEST NUMBER FUNCTIONALITY ---
+        window.requestNumber = async (targetId, targetName) => {
+            try {
+                // Prevent self-request
+                if(targetId === loggedUserMemberId) {
+                    return showAlert("గమనిక", "మీ నంబర్ మీరే రిక్వెస్ట్ చేసుకోలేరు కదా!", "error");
+                }
+
+                // Check for existing request (Prevent Duplicate)
+                const q = query(collection(db, "phone_requests"), 
+                    where("fromId", "==", loggedUserMemberId), 
+                    where("toId", "==", targetId)
+                );
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    showAlert("గమనిక", `మీరు ఇప్పటికే ${targetName} గారికి అభ్యర్థన పంపారు.`, "error");
+                    return;
+                }
+
+                // Add new request
+                await addDoc(collection(db, "phone_requests"), {
+                    fromId: loggedUserMemberId,
+                    fromName: loggedUserFirstName,
+                    toId: targetId,
+                    toName: targetName,
+                    status: "Pending",
+                    requestedAt: new Date()
+                });
+
+                showAlert("పంపబడింది", `${targetName} గారి నంబర్ కోసం అభ్యర్థన పంపబడింది. అడ్మిన్ అప్రూవ్ చేయగానే మీకు కనిపిస్తుంది.`, "success");
+                document.getElementById(`action-${targetId}`).innerHTML = `<span style="color:orange; font-size:12px; font-weight:bold; margin-top:12px; display:inline-block;"><i class="fa-solid fa-clock"></i> Request Pending</span>`;
+
+            } catch (e) {
+                alert("Error: " + e.message);
+            }
+        };
 
         window.updateProfile = async () => {
             const id = document.getElementById('curUserId').value;
