@@ -56,6 +56,7 @@
         .nav-bar-ui { background: var(--primary); position: fixed; bottom: 0; width: 100%; z-index: 1000; border-radius: 25px 25px 0 0; display: none; padding: 10px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.2); }
         .nav-ui-container { max-width: 500px; margin: 0 auto; display: flex; justify-content: space-around; align-items: center; }
         .nav-ui-item { color: rgba(255,255,255,0.5); cursor: pointer; text-align: center; font-size: 12px; display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; transition: 0.3s; text-decoration: none; }
+        .nav-ui-item i { font-size: 20px; }
         .nav-ui-item.active { color: var(--accent); }
         .btn-action { background: var(--primary); color: white; width: 100%; padding: 16px; border-radius: 15px; font-weight: bold; border: none; cursor: pointer; font-size: 16px; }
         .btn-req-ui { background: #f4f7fa; color: var(--primary); padding: 8px 18px; border-radius: 25px; font-size: 12px; font-weight: bold; border: 1.5px solid var(--primary); cursor: pointer; margin-top: 8px; display: inline-flex; align-items: center; gap: 6px; }
@@ -172,6 +173,7 @@
                 <div class="id-tag-num">ID: <span id="idMemberDisplay"></span></div>
             </div>
             <button class="btn-action" style="margin-top:15px; margin-bottom:25px; max-width:350px;" onclick="downloadCard()"><i class="fa-solid fa-download"></i> ID కార్డ్ డౌన్లోడ్</button>
+            
             <div style="background:white; padding:30px; border-radius:30px; border-top:8px solid var(--primary); box-shadow:0 5px 20px rgba(0,0,0,0.05); text-align:left;">
                 <h3 style="margin-bottom:25px; color:var(--primary); font-weight: bold;">వివరాలు మార్చుకోండి</h3>
                 <input type="hidden" id="curUserId">
@@ -225,7 +227,7 @@
 
         let loggedUserMemberId = "";
         let loggedUserFirstName = "";
-        let unsubDirMembers = null, unsubDirRequests = null;
+        let unsubDirMembers = null, unsubDirRequests = null, unsubMyProfile = null;
 
         window.togglePass = (id, el) => {
             const input = document.getElementById(id);
@@ -250,9 +252,9 @@
             if(id === 'tabNotif') document.getElementById('notifBadge').style.display = 'none';
         };
 
+        // Real-time Notice Board
         onSnapshot(doc(db, "app_settings", "notice"), (d) => { if (d.exists()) document.getElementById('noticeText').innerText = d.data().text; });
 
-        // --- LOGIN WITH SESSION SAVING ---
         window.handleLogin = async () => {
             const m = document.getElementById('logMobile').value, p = document.getElementById('logPass').value;
             const q = query(collection(db, "user_registrations"), where("mobile", "==", m), where("password", "==", p));
@@ -260,58 +262,84 @@
             if (!snap.empty) {
                 const userDoc = snap.docs[0];
                 const d = userDoc.data();
-                d.firebaseId = userDoc.id; // Edit profile కోసం అసలు ID
-                
-                localStorage.setItem("loggedUser", JSON.stringify(d));
-                setupUserUI(d);
+                // Store only essential ID in localStorage
+                localStorage.setItem("loggedUserFirebaseId", userDoc.id);
+                startAppSession(userDoc.id);
             } else showAlert("క్షమించండి", "వివరాలు తప్పు!", "error");
         };
 
-        function setupUserUI(d) {
-            loggedUserMemberId = d.memberId; loggedUserFirstName = d.firstName;
-            showScreen('screenDash'); document.getElementById('mainNav').style.display = 'block'; document.getElementById('appHeader').style.display = 'flex';
+        // --- NEW: 100% REAL-TIME PROFILE SYNC ---
+        function startAppSession(firebaseId) {
+            // Unsubscribe existing listeners if any
+            if(unsubMyProfile) unsubMyProfile();
             
-            document.getElementById('idName').innerText = d.firstName + " " + (d.lastName || "");
-            document.getElementById('idJob').innerText = d.profession || "N/A";
-            document.getElementById('idVillage').innerText = d.village;
-            document.getElementById('idBloodDisplay').innerText = d.bloodGroup;
-            document.getElementById('idMemberDisplay').innerText = d.memberId;
-            
-            document.getElementById('curUserId').value = d.firebaseId;
-            document.getElementById('uMemberId').value = d.memberId || "";
-            document.getElementById('uFname').value = d.firstName || "";
-            document.getElementById('uLname').value = d.lastName || "";
-            document.getElementById('uGender').value = d.gender || "Male";
-            document.getElementById('uGotram').value = d.gotram || "";
-            document.getElementById('uMobile').value = d.mobile || "";
-            document.getElementById('uJob').value = d.profession || "";
-            document.getElementById('uBlood').value = d.bloodGroup || "";
-            document.getElementById('uVillage').value = d.village || "";
-            document.getElementById('uPin').value = d.pincode || "";
-            document.getElementById('uMandal').value = d.mandal || "";
-            document.getElementById('uDist').value = d.district || "";
-            document.getElementById('uState').value = d.state || "";
-            document.getElementById('uEmail').value = d.email || "";
-            document.getElementById('uPass').value = d.password || "";
-            
-            startRealtimeDirectory();
-            listenNotifications();
+            unsubMyProfile = onSnapshot(doc(db, "user_registrations", firebaseId), (snap) => {
+                if(snap.exists()) {
+                    const d = snap.data();
+                    loggedUserMemberId = d.memberId;
+                    loggedUserFirstName = d.firstName;
+                    
+                    // UI Update
+                    showScreen('screenDash');
+                    document.getElementById('mainNav').style.display = 'block';
+                    document.getElementById('appHeader').style.display = 'flex';
+                    
+                    // Sync ID Card & Info
+                    document.getElementById('idName').innerText = `${d.firstName} ${d.lastName || ""}`;
+                    document.getElementById('idJob').innerText = d.profession || "N/A";
+                    document.getElementById('idVillage').innerText = d.village;
+                    document.getElementById('idBloodDisplay').innerText = d.bloodGroup;
+                    document.getElementById('idMemberDisplay').innerText = d.memberId;
+                    
+                    // Sync Edit Profile Form
+                    document.getElementById('curUserId').value = firebaseId;
+                    document.getElementById('uMemberId').value = d.memberId || "";
+                    document.getElementById('uFname').value = d.firstName || "";
+                    document.getElementById('uLname').value = d.lastName || "";
+                    document.getElementById('uGender').value = d.gender || "Male";
+                    document.getElementById('uGotram').value = d.gotram || "";
+                    document.getElementById('uMobile').value = d.mobile || "";
+                    document.getElementById('uJob').value = d.profession || "";
+                    document.getElementById('uBlood').value = d.bloodGroup || "";
+                    document.getElementById('uVillage').value = d.village || "";
+                    document.getElementById('uPin').value = d.pincode || "";
+                    document.getElementById('uMandal').value = d.mandal || "";
+                    document.getElementById('uDist').value = d.district || "";
+                    document.getElementById('uState').value = d.state || "";
+                    document.getElementById('uEmail').value = d.email || "";
+                    document.getElementById('uPass').value = d.password || "";
+
+                    // Start other listeners only once
+                    if(!unsubDirMembers) {
+                        startRealtimeDirectory();
+                        listenNotifications();
+                    }
+                } else {
+                    handleLogout(); // If user document deleted
+                }
+            });
         }
 
-        window.handleLogout = () => { localStorage.removeItem("loggedUser"); location.reload(); };
-
-        // రిఫ్రెష్ చేసినా లాగిన్ అలాగే ఉండటానికి
-        window.onload = () => {
-            const savedUser = localStorage.getItem("loggedUser");
-            if (savedUser) setupUserUI(JSON.parse(savedUser));
+        window.handleLogout = () => { 
+            localStorage.removeItem("loggedUserFirebaseId"); 
+            location.reload(); 
         };
 
+        window.onload = () => {
+            const firebaseId = localStorage.getItem("loggedUserFirebaseId");
+            if (firebaseId) startAppSession(firebaseId);
+        };
+
+        // Real-time Directory Sync with Smart Sorting
         function startRealtimeDirectory() {
-            if(unsubDirMembers) unsubDirMembers(); if(unsubDirRequests) unsubDirRequests();
+            if(unsubDirMembers) unsubDirMembers(); 
+            if(unsubDirRequests) unsubDirRequests();
+            
             let allMembers = []; let myRequests = {};
 
             const updateUI = () => {
-                const container = document.getElementById('dirListContainer'); container.innerHTML = "";
+                const container = document.getElementById('dirListContainer');
+                container.innerHTML = "";
                 const myPin = document.getElementById('uPin').value;
                 const myVillage = document.getElementById('uVillage').value;
                 const myMandal = document.getElementById('uMandal').value;
@@ -352,12 +380,18 @@
                     </div>`;
                 });
             };
-            unsubDirMembers = onSnapshot(collection(db, "user_registrations"), (snap) => { allMembers = snap.docs.map(doc => { let dat = doc.data(); dat.firebaseId = doc.id; return dat; }); updateUI(); });
+
+            unsubDirMembers = onSnapshot(collection(db, "user_registrations"), (snap) => { 
+                allMembers = snap.docs.map(doc => doc.data()); 
+                updateUI(); 
+            });
             unsubDirRequests = onSnapshot(query(collection(db, "phone_requests"), where("fromId", "==", loggedUserMemberId)), (snap) => {
-                myRequests = {}; snap.forEach(doc => { myRequests[doc.data().toId] = doc.data().status; }); updateUI();
+                myRequests = {}; snap.forEach(doc => { myRequests[doc.data().toId] = doc.data().status; }); 
+                updateUI();
             });
         }
 
+        // Real-time Notifications Sync
         function listenNotifications() {
             const q = query(collection(db, "notifications"), where("toId", "==", loggedUserMemberId));
             onSnapshot(q, (snap) => {
@@ -414,9 +448,6 @@
             try {
                 const upData = { firstName: document.getElementById('uFname').value, lastName: document.getElementById('uLname').value, gender: document.getElementById('uGender').value, gotram: document.getElementById('uGotram').value, profession: document.getElementById('uJob').value, bloodGroup: document.getElementById('uBlood').value, village: document.getElementById('uVillage').value, pincode: document.getElementById('uPin').value, mandal: document.getElementById('uMandal').value, district: document.getElementById('uDist').value, state: document.getElementById('uState').value, email: document.getElementById('uEmail').value, password: document.getElementById('uPass').value };
                 await updateDoc(doc(db, "user_registrations", id), upData);
-                // LocalStorage కూడా అప్‌డేట్ చేయాలి
-                const saved = JSON.parse(localStorage.getItem("loggedUser"));
-                localStorage.setItem("loggedUser", JSON.stringify({...saved, ...upData}));
                 showAlert("విజయం!", "ప్రొఫైల్ వివరాలు అప్‌డేట్ అయ్యాయి.");
             } catch (e) { showAlert("Error", e.message, "error"); }
         };
