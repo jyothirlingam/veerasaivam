@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>వీరశైవం - పోర్టల్</title>
+    <title>వీరశైవం-డైరెక్టరీ </title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -16,7 +16,7 @@
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         /* HEADER */
-        .header-ui { display: flex; justify-content: space-between; align-items: center; padding: 12px 5%; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .header-ui { display: flex; justify-content: space-between; align-items: center; padding: 12px 5%; background: rgb(248, 244, 244); box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
         .notif-btn { position: relative; cursor: pointer; font-size: 22px; color: var(--primary); }
         .notif-badge { position: absolute; top: -5px; right: -5px; background: var(--danger); color: white; font-size: 10px; padding: 2px 6px; border-radius: 50%; display: none; font-weight: bold; border: 2px solid white; }
 
@@ -43,7 +43,7 @@
         .toggle-pass { position: absolute; right: 15px; top: 18px; color: #999; cursor: pointer; z-index: 10; font-size: 18px; }
 
         /* MEMBER CARD DIRECTORY */
-        .member-card { background: white; padding: 15px; border-radius: 20px; margin-bottom: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 15px; position: relative; text-align: left; }
+        .member-card { background: white; padding: 15px; border-radius: 20px;border-left: 5px solid var(--primary); margin-bottom: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 15px; position: relative; text-align: left; }
         .blood-circle { width: 50px; height: 50px; border-radius: 50%; background: #fff5f5; border: 2px solid #ffebeb; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .blood-text { color: var(--danger); font-weight: 800; font-size: 13px; }
 
@@ -56,7 +56,7 @@
         .btn-reject-sm { background: #eee; color: #666; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 11px; }
 
         /* ID CARD */
-        .id-card-wrap { width: 100%; max-width: 350px; background: linear-gradient(to bottom right, #090296 0%, #04b03a 40%, #f2f54e 60%, #ff0015 80%, #ffffff 100%); margin: 10px auto 25px auto; border-radius: 20px; color: white; padding: 25px; position: relative; border: 3px solid var(--accent); box-shadow: 0 15px 35px rgba(0,0,0,0.2); aspect-ratio: 1.6 / 1; display: flex; flex-direction: column; justify-content: center; }
+        .id-card-wrap { width: 100%; max-width: 350px; background: linear-gradient(to bottom right, #0f02fcc1 0%, #01f84fb3 50%, #f3f801a9 60%, #ff00158f 80%, #ffffff 100%); margin: 10px auto 25px auto; border-radius: 20px; color: rgb(245, 242, 242); padding: 25px; position: relative; border: 3px solid #eee; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.405); aspect-ratio: 1.6 / 1; display: flex; flex-direction: column; justify-content: center; }
         .id-info { font-size: 14px; margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); text-align: left; }
         .id-b-badge { position: absolute; top: 15px; right: 15px; background: var(--danger); padding: 4px 12px; border-radius: 8px; font-weight: bold; font-size: 14px; }
 
@@ -91,7 +91,10 @@
             <h2 style="color:var(--primary); font-weight: bold;">వీరశైవ లాగిన్</h2>
             <div style="margin-top: 35px;">
                 <div class="f-group"><input type="tel" id="logMobile" placeholder=" "><label>మొబైల్ నంబర్</label></div>
-                <div class="f-group"><input type="password" id="logPass" placeholder=" "><label>పాస్ వర్డ్</label><i class="fa-solid fa-eye toggle-pass" onclick="togglePass('logPass', this)"></i></div>
+                <div class="f-group"><input type="password" id="logPass" placeholder=" ">
+                    <label>పాస్ వర్డ్</label>
+                    <i class="fa-solid fa-eye toggle-pass" onclick="togglePass('logPass', this)"></i>
+                </div>
                 <button class="btn-action" onclick="handleLogin()">లాగిన్</button>
             </div>
             <p style="margin-top:30px; font-size:14px;">కొత్త సభ్యులా? <a href="#" onclick="showScreen('screenReg')" style="color:var(--secondary); font-weight:bold; text-decoration:none;">నమోదు చేసుకోండి</a></p>
@@ -104,8 +107,21 @@
             <div class="reg-grid">
                 <div class="f-group"><input type="text" id="regFname" placeholder=" "><label>పేరు *</label></div>
                 <div class="f-group"><input type="text" id="regLname" placeholder=" "><label>ఇంటి పేరు *</label></div>
-                <div class="f-group"><select id="regGender"><option value="" selected disabled></option><option value="Male">Male</option><option value="Female">Female</option></select><label>లింగం *</label></div>
-                <div class="f-group"><input type="text" id="regGotram" placeholder=" "><label>గోత్రం *</label></div>
+                <div class="f-group"><select id="regGender">
+                    <option value="" selected disabled></option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select><label>లింగం *</label></div>
+                <div class="f-group">
+                    <select type="text" id="regGotram" >
+                        <option value="" selected disabled>
+                        <option value="వీర">వీర</option>
+                        <option value="నందిశ్వర">నందిశ్వర</option>
+                        <option value="వృషభ">వృషభ </option>
+                        <option value="బృంగీ">బృంగీ</option>
+                        <option value="స్కంధ">స్కంధ</option>
+                    </select>
+                    <label>గోత్రం*</label></div>
                 <div class="f-group"><input type="tel" id="regMobile" placeholder=" "><label>మొబైల్ *</label></div>
                 <div class="f-group">
                     <select id="regBlood">
@@ -135,14 +151,14 @@
         <div class="nav-ui-container">
             <div class="nav-ui-item active" id="btnDir" onclick="openTab('tabDir')"><i class="fa-solid fa-house-user"></i><span>సభ్యులు</span></div>
             <div class="nav-ui-item" id="btnProf" onclick="openTab('tabProf')"><i class="fa-solid fa-address-card"></i><span>ప్రొఫైల్</span></div>
-            <div class="nav-ui-item" onclick="handleLogout()" style="color:#ffaaaa;"><i class="fa-solid fa-power-off"></i><span>నిష్క్రమించు</span></div>
+            <div class="nav-ui-item" onclick="handleLogout()" style="color:#f45454;"><i class="fa-solid fa-power-off"></i><span>నిష్క్రమించు</span></div>
         </div>
     </nav>
 
     <div id="screenDash" class="screen">
         <div class="notice-container">
             <div class="notice-icon-box"><i class="fa-solid fa-bullhorn"></i></div>
-            <marquee id="noticeText">సమాచారం లోడ్ అవుతోంది...</marquee>
+            <marquee id="noticeText" direction="left" scrollamount="5" width="100%"> సమాచారం లోడ్ అవుతోంది...</marquee>
         </div>
 
         <div id="tabDir">
@@ -186,7 +202,14 @@
                     <div class="f-group"><input type="text" id="uFname" placeholder=" "><label>పేరు</label></div>
                     <div class="f-group"><input type="text" id="uLname" placeholder=" "><label>ఇంటి పేరు</label></div>
                     <div class="f-group"><select id="uGender"><option value="Male">Male</option><option value="Female">Female</option></select><label>లింగం</label></div>
-                    <div class="f-group"><input type="text" id="uGotram" placeholder=" "><label>గోత్రం</label></div>
+                    <div class="f-group"><select type="text" id="uGotram" >
+                        <option value="" selected disabled>
+                        <option value="వీర">వీర</option>
+                        <option value="నందిశ్వర">నందిశ్వర</option>
+                        <option value="వృషభ">వృషభ </option>
+                        <option value="బృంగీ">బృంగీ</option>
+                        <option value="స్కంధ">స్కంధ</option>
+                    </select><label>గోత్రం </label></div>
                     <div class="f-group"><input type="tel" id="uMobile" disabled><label>మొబైల్ (మార్చలేరు)</label></div>
                     <div class="f-group"><input type="text" id="uJob" placeholder=" "><label>వృత్తి</label></div>
                     <div class="f-group">
@@ -352,7 +375,7 @@
 
                 sortedMembers.forEach(d => {
                     let actionHtml = ""; const status = myRequests[d.memberId];
-                    if (status === "Approved") actionHtml = `<a href="tel:${d.mobile}" class="btn-call-ui"><i class="fa-solid fa-phone"></i> కాల్ చేయండి</a>`;
+                    if (status === "Approved") actionHtml = `<a href="tel:${d.mobile}" class="btn-call-ui"><i class="fa-solid fa-phone"></i> CALL </a>`;
                     else if (status === "Pending") actionHtml = `<span style="color:orange; font-size:12px; margin-top:10px; font-weight:bold;"><i class="fa-solid fa-clock"></i> Request Pending</span>`;
                     else actionHtml = `<button class="btn-req-ui" onclick="requestNumber('${d.memberId}', '${d.firstName}')"><i class="fa-solid fa-paper-plane"></i> నంబర్ కావాలి</button>`;
                     
@@ -368,7 +391,7 @@
                             <div id="action-${d.memberId}">${actionHtml}</div>
                         </div>
                         <div style="align-self: flex-start; opacity: 0.3;">
-                            <i class="fa-solid fa-${d.gender === 'Female' ? 'venus' : 'mars'}" style="font-size: 14px;"></i>
+                            <i class="fa-solid fa-${d.gender === 'Female' ? 'venus' : 'mars'}" style="font-size: 14px; "></i>
                         </div>
                     </div>`;
                 });
@@ -397,7 +420,7 @@
                             <button class="btn-approve-sm" onclick="approveDirect('${docSnap.id}', '${n.fromId}', '${n.fromName}')">Approve</button>
                             <button class="btn-reject-sm" onclick="deleteNotif('${docSnap.id}')">Reject</button>
                         </div>` : "";
-                    container.innerHTML += `<div class="notif-card ${n.type==='Approved'?'approved-type':''}" style="border-left-color: ${n.type==='Approved'?'var(--secondary)':'#00d1ff'}"><b>${n.title}</b><span>${n.message}</span>${actionBtns}</div>`;
+                    container.innerHTML += `<div class="notif-card ${n.type==='Approved'?'approved-type':''}" style="border-left-color: ${n.type==='Approved'?'var(--secondary)':'#ff0015'}"><b>${n.title}</b><span>${n.message}</span>${actionBtns}</div>`;
                 });
 
                 if(unread > 0) { 
